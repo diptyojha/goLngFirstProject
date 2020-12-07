@@ -1,4 +1,4 @@
-package controllertests
+package modeltests
 
 import (
 	"fmt"
@@ -24,7 +24,6 @@ func TestMain(m *testing.M) {
 	Database()
 
 	os.Exit(m.Run())
-
 }
 
 func Database() {
@@ -35,16 +34,6 @@ func Database() {
 
 	if TestDbDriver == "mysql" {
 		DBURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("TestDbUser"), os.Getenv("TestDbPassword"), os.Getenv("TestDbHost"), os.Getenv("TestDbPort"), os.Getenv("TestDbName"))
-		server.DB, err = gorm.Open(TestDbDriver, DBURL)
-		if err != nil {
-			fmt.Printf("Cannot connect to %s database\n", TestDbDriver)
-			log.Fatal("This is the error:", err)
-		} else {
-			fmt.Printf("We are connected to the %s database\n", TestDbDriver)
-		}
-	}
-	if TestDbDriver == "postgres" {
-		DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", os.Getenv("TestDbHost"), os.Getenv("TestDbPort"), os.Getenv("TestDbUser"), os.Getenv("TestDbName"), os.Getenv("TestDbPassword"))
 		server.DB, err = gorm.Open(TestDbDriver, DBURL)
 		if err != nil {
 			fmt.Printf("Cannot connect to %s database\n", TestDbDriver)
@@ -70,10 +59,7 @@ func refreshUserTable() error {
 
 func seedOneUser() (models.User, error) {
 
-	err := refreshUserTable()
-	if err != nil {
-		log.Fatal(err)
-	}
+	refreshUserTable()
 
 	user := models.User{
 		Nickname: "Pet",
@@ -81,19 +67,15 @@ func seedOneUser() (models.User, error) {
 		Password: "password",
 	}
 
-	err = server.DB.Model(&models.User{}).Create(&user).Error
+	err := server.DB.Model(&models.User{}).Create(&user).Error
 	if err != nil {
-		return models.User{}, err
+		log.Fatalf("cannot seed users table: %v", err)
 	}
 	return user, nil
 }
 
-func seedUsers() ([]models.User, error) {
+func seedUsers() error {
 
-	var err error
-	if err != nil {
-		return nil, err
-	}
 	users := []models.User{
 		models.User{
 			Nickname: "Steven victor",
@@ -106,13 +88,14 @@ func seedUsers() ([]models.User, error) {
 			Password: "password",
 		},
 	}
+
 	for i, _ := range users {
 		err := server.DB.Model(&models.User{}).Create(&users[i]).Error
 		if err != nil {
-			return []models.User{}, err
+			return err
 		}
 	}
-	return users, nil
+	return nil
 }
 
 // func refreshUserAndPostTable() error {

@@ -17,10 +17,17 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateUser))).Methods("PUT")
 	s.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteUser)).Methods("DELETE")
 
-	//Posts routes
-	s.Router.HandleFunc("/posts", middlewares.SetMiddlewareJSON(s.CreatePost)).Methods("POST")
-	s.Router.HandleFunc("/posts", middlewares.SetMiddlewareJSON(s.GetPosts)).Methods("GET")
-	s.Router.HandleFunc("/posts/{id}", middlewares.SetMiddlewareJSON(s.GetPost)).Methods("GET")
-	s.Router.HandleFunc("/posts/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdatePost))).Methods("PUT")
-	s.Router.HandleFunc("/posts/{id}", middlewares.SetMiddlewareAuthentication(s.DeletePost)).Methods("DELETE")
+	//Locations routes
+	s.Router.HandleFunc("/locations", middlewares.SetMiddlewareJSON(s.CreateLocation)).Methods("POST")
+	s.Router.HandleFunc("/locations", middlewares.SetMiddlewareJSON(s.GetLocations)).Methods("GET")
+	s.Router.HandleFunc("/locations/{id}", middlewares.SetMiddlewareJSON(s.GetLocation)).Methods("GET")
+	s.Router.HandleFunc("/locations/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateLocation))).Methods("PUT")
+	s.Router.HandleFunc("/locations/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteLocation)).Methods("DELETE")
+
+	//Locations routes
+	s.Router.HandleFunc("/userlocations", middlewares.SetMiddlewareJSON(s.CreateUserLocation)).Methods("POST")
+	s.Router.HandleFunc("/userlocations", middlewares.SetMiddlewareJSON(s.GetUserLocation)).Methods("GET")
+	s.Router.HandleFunc("/userlocations/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.GetUserLocation))).Methods("GET")
+	s.Router.HandleFunc("/userlocations/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateUserLocation))).Methods("PUT")
+	s.Router.HandleFunc("/userlocations/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteUserLocation)).Methods("DELETE")
 }
