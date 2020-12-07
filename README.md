@@ -1,1 +1,1 @@
-# goLngFirstProject
+# goLangFirstProject
