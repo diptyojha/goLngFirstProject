@@ -16,7 +16,7 @@ require (
 	github.com/swaggo/http-swagger v0.0.0-20200308142732-58ac5e232fba // indirect
 	github.com/swaggo/swag v1.7.0
 	golang.org/x/crypto v0.0.0-20201203163018-be400aefbc4c
-	golang.org/x/net v0.0.0-20201202161906-c7110b5ffcbb // indirect
-	golang.org/x/tools v0.0.0-20201206230334-368bee879bfd // indirect
+	golang.org/x/net v0.0.0-20201207224615-747e23833adb // indirect
+	golang.org/x/tools v0.0.0-20201208062317-e652b2f42cc7 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1
 )
